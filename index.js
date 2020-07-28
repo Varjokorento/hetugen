@@ -21,7 +21,7 @@ module.exports = class HetuGen {
         const month = getMonth();
         const day = getDay(month);
         const dividor = year >= 2000 ? ("A"): ("-")
-        const endCode = generateCode(isActual);
+        const endCode = generateCode(isActual, year);
         const numberString = day.toString() + month.toString() + year.toString() + endCode.toString();
         const checkSum = generateCheckSum(numberString)
         year = year.toString();
@@ -127,7 +127,7 @@ formatNumber = (number) => {
     }
 }
 
-generateCode = (actual) => {
+generateCode = (actual, year) => {
     let min, max;
     if (actual) {
         min = 2;
@@ -135,8 +135,15 @@ generateCode = (actual) => {
     } else {
         min = 900;
         max = 999;
-        return Math.floor(Math.random() * (max - min + 1) + min);
+        return getRandomNumberBetween(min, max)
     }
-    let number = Math.floor(Math.random() * (max - min + 1) + min);
+    let number = getRandomNumberBetween(min, max)
+    if ((number === 666  || number === 696)  && year > 1998) {
+        return generateCode(actual, year)
+    } 
     return formatNumber(number)
+}
+
+getRandomNumberBetween = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
