@@ -16,6 +16,11 @@ describe('FinnishSSN', () => {
             const validSSN = '110393-2707'
             expect(Hetugen.validate(validSSN)).to.equal(true)
       })
+
+      it('Should pass with a generated SSN', () => {
+          const genSSN = Hetugen.generateSingleActual();
+          expect(Hetugen.validate(genSSN)).to.equal(true)
+      })
     }
     )
 }
