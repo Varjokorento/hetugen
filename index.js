@@ -1,15 +1,36 @@
-module.exports = () => {
-    let year = getYear();
-    const month = getMonth();
-    const day = getDay(month);
-    const dividor = year >= 2000 ? ("A"): ("-")
-    const endCode = generateCode();
-    const numberString = day.toString() + month.toString() + year.toString() + endCode.toString();
-    const checkSum = generateCheckSum(numberString)
-    year = year.toString();
-    year = year[2] + year[3]
-    return day.toString() + month.toString() + year.toString() + dividor + endCode + checkSum;
+module.exports = class HetuGen {
+
+    static generateN = (n) => {
+        let arr = []
+        for (var i = 0; i < n; i++) {
+            arr.push(this.generateSingle())
+        }
+        return arr;
+    }
+
+    static generateSingle = () => {
+        let year = getYear();
+        const month = getMonth();
+        const day = getDay(month);
+        const dividor = year >= 2000 ? ("A"): ("-")
+        const endCode = generateCode();
+        const numberString = day.toString() + month.toString() + year.toString() + endCode.toString();
+        const checkSum = generateCheckSum(numberString)
+        year = year.toString();
+        year = year[2] + year[3]
+        return day.toString() + month.toString() + year.toString() + dividor + endCode + checkSum;
+    }
+
+    static validate = (ssn) => {
+        if (!ssn.match(SSN_REGEX) || ssn.length < 11 ) {
+            return false;
+        }
+        return true;
+    }
 }
+
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+
 
 
 generateCheckSum = (numberString) => {
@@ -44,15 +65,29 @@ generateCheckSum = (numberString) => {
 getDay = (month, year) => {
     let day;
     if (month === '02') {
-        day = Math.floor(Math.random() * 28) + 1;
+        if (isLeapYear(year)) {
+            day = Math.floor(Math.random() * 29) + 1;
+            return formatDay(day)
+        } else {
+            day = Math.floor(Math.random() * 28) + 1;
+            return formatDay(day)
+        }
     }
     if (monthsWith31Days().has(month)) {
         day = Math.floor(Math.random() * 31) + 1;
+        return formatDay(day)
     } else {
         day = Math.floor(Math.random() * 30) + 1;
+        return formatDay(day)
     }
+}
 
+formatDay = (day) => {
     return day.toString().length > 1 ? (day) : ('0' + day);
+}
+
+isLeapYear = (year) => {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
 }
 
 monthsWith31Days = () => {
