@@ -1,0 +1,11 @@
+{
+  "name": "hetugen",
+  "version": "1.0.0",
+  "description": "A package for generating Finnish ids",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Varjokorento",
+  "license": "ISC"
+}
