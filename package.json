@@ -1,6 +1,6 @@
 {
   "name": "hetugen",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A package for generating Finnish ids",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,6 @@
   "dependencies": {
     "chai": "^4.2.0",
     "mocha": "^8.0.1"
-  }
+  },
+  "homepage": "https://github.com/Varjokorento/hetugen"
 }

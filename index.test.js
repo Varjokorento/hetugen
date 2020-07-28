@@ -23,5 +23,34 @@ describe('FinnishSSN', () => {
       })
     }
     )
+
+    describe('#generate', () => {
+        it('Should be of length 11', () => {
+            const generatedString = Hetugen.generate();
+            expect(generatedString).to.length(11)
+            }
+        )
+        it('Temporary should start with 9', () => {
+            const generatedString = Hetugen.generate();
+            let splitted = generatedString.split(/[-A]+/)
+            expect(splitted[1][0]).to.equal("9")
+            }
+        )
+    })
+
+    describe('#generateSingleActual', () => {
+        it('Should be of length 11', () => {
+            const generatedString = Hetugen.generate();
+            expect(generatedString).to.length(11)
+            }
+        )
+        it('Actual should not start with 9', () => {
+            const generatedString = Hetugen.generateSingleActual();
+            let splitted = generatedString.split(/[-A]+/)
+            expect(splitted[1][0]).not.to.equal("9")
+            }
+        )
+
+    })
 }
 )

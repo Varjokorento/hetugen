@@ -1,5 +1,14 @@
 module.exports = class HetuGen {
 
+    static generate() {
+        return this.generateSingleTemporary();
+    }
+
+    static getGeneratedListWithSize = (size) => {
+        return this.generateN(size, false)
+    }
+
+
     static generateN = (n, isActual) => {
         let arr = []
         for (var i = 0; i < n; i++) {
@@ -15,6 +24,7 @@ module.exports = class HetuGen {
     static generateSingleActual = () => {
         return this.generateSingle(true)
     }
+    
 
     static generateSingle = (isActual) => {
         let year = getYear();
