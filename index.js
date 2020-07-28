@@ -1,19 +1,27 @@
 module.exports = class HetuGen {
 
-    static generateN = (n) => {
+    static generateN = (n, isActual) => {
         let arr = []
         for (var i = 0; i < n; i++) {
-            arr.push(this.generateSingle())
+            arr.push(this.generateSingle(true, isActual))
         }
         return arr;
     }
 
-    static generateSingle = () => {
+    static generateSingleTemporary = () => {
+        return this.generateSingle(false)
+    }
+
+    static generateSingleActual = () => {
+        return this.generateSingle(true)
+    }
+
+    static generateSingle = (isActual) => {
         let year = getYear();
         const month = getMonth();
         const day = getDay(month);
         const dividor = year >= 2000 ? ("A"): ("-")
-        const endCode = generateCode();
+        const endCode = generateCode(isActual);
         const numberString = day.toString() + month.toString() + year.toString() + endCode.toString();
         const checkSum = generateCheckSum(numberString)
         year = year.toString();
@@ -119,9 +127,16 @@ formatNumber = (number) => {
     }
 }
 
-generateCode = () => {
-    const min = 2;
-    const max = 899;
+generateCode = (actual) => {
+    let min, max;
+    if (actual) {
+        min = 2;
+        max = 899;
+    } else {
+        min = 900;
+        max = 999;
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
     let number = Math.floor(Math.random() * (max - min + 1) + min);
     return formatNumber(number)
 }
