@@ -33,7 +33,8 @@ console.log(Hetugen.generateN(5, isActual))
 
 
 ## Releases
-
+0.2.1 Minor release
+    - fixed dependencies
 0.2.0 Second release
     - Fixes a bug where the checksum is incorrectly generated
     - Improves validation to actually check for a correct checksum
