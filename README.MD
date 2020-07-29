@@ -1,4 +1,4 @@
-# Finnish Social Security Generator
+# Finnish Social Security Number (SSN) Generator
 
 This is a small Javascript library for generating Finnish SSN. The logic is based on Tuomas Salste's quality article: https://www.tuomas.salste.net/doc/hetu/tunnus.html.
 
@@ -33,9 +33,10 @@ console.log(Hetugen.generateN(5, isActual))
 
 
 ## Releases
-0.2.1 Minor release
-    - fixed dependencies
-0.2.0 Second release
-    - Fixes a bug where the checksum is incorrectly generated
-    - Improves validation to actually check for a correct checksum
-0.1.0 First working release. Generates a SSN and 
+  * 0.2.1 Minor release
+      - fixed dependencies
+  * 0.2.0 Second release
+      - Fixes a bug where the checksum is incorrectly generated
+      - Improves validation to actually check for a correct checksum
+  * 0.1.0 First working release 
+  * Unordered sub-list. 
