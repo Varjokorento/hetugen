@@ -1,5 +1,4 @@
 module.exports = class HetuGen {
-
     static generate() {
         return this.generateSingleTemporary();
     }
@@ -32,7 +31,8 @@ module.exports = class HetuGen {
         const day = getDay(month);
         const dividor = year >= 2000 ? ("A"): ("-")
         const endCode = generateCode(isActual, year);
-        const numberString = day.toString() + month.toString() + year.toString() + endCode.toString();
+        const yearLastDigits = year.toString()[2] + year.toString()[3]
+        const numberString = day.toString() + month.toString() + yearLastDigits + endCode.toString();
         const checkSum = generateCheckSum(numberString)
         year = year.toString();
         year = year[2] + year[3]
@@ -43,41 +43,68 @@ module.exports = class HetuGen {
         if (!ssn.match(SSN_REGEX) || ssn.length < 11 ) {
             return false;
         }
-        return true;
+
+        const array = ssn.split("-");
+
+        if (array.length != 2) {
+            return false
+        }
+        return isCheckSumCorrect(array);
     }
+}
+
+
+isCheckSumCorrect = (array) => {
+    const firstPart = array[0];
+    const secondPart = array[1];
+    const secondNumber = secondPart[0] + secondPart[1] + secondPart[2];
+    const checkSum = secondPart[3];
+    const numberToDivide = parseInt(firstPart.toString() + secondNumber.toString())
+    const modulo = numberToDivide % 31
+    return checkSumMap[modulo] == checkSum
 }
 
 const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
 
+const checkSumMap = {
+    1: '1',
+    2: '2',
+    3: '3',
+    4: '4',
+    5: '5',
+    6: '6',
+    7: '7',
+    8: '8',
+    9: '9',
+    10: 'A',
+    11: 'B',
+    12: 'C',
+    13: 'D',
+    14: 'E',
+    15: 'F',
+    16: 'H',
+    17: 'J',
+    18: 'K',
+    19: 'L',
+    20: 'M',
+    21: 'N',
+    22: 'P',
+    23: 'R',
+    24: 'S',
+    25: 'T',
+    26: 'U',
+    27: 'V',
+    28: 'W',
+    29: 'X',
+    30: 'Y'
+}
 
 
 generateCheckSum = (numberString) => {
-    const modulo = parseInt(numberString) % 31;
+    const parsedNroString = parseInt(numberString);
+    const modulo = parsedNroString % 31;
     if (modulo < 10) {return modulo}
-    const map = {
-        10: 'A',
-        11: 'B',
-        12:'C',
-        13: 'D',
-        14: 'E',
-        15: 'F',
-        16: 'H',
-        17: 'J',
-        18: 'K',
-        19: 'L',
-        20: 'M',
-        21: 'N',
-        22: 'P',
-        23: 'R',
-        24: 'S',
-        25: 'T',
-        26: 'U',
-        27: 'V',
-        28: 'W',
-        29: 'X',
-        30: 'Y'
-    }
-    return map[modulo];
+    return checkSumMap[modulo];
 }
 
 getDay = (month, year) => {
