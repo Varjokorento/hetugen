@@ -1,13 +1,15 @@
 module.exports = class HetuGen {
+    // generates a single temporary
     static generate() {
         return this.generateSingleTemporary();
     }
-
+    
+    // generates a list of temporary ssn
     static getGeneratedListWithSize = (size) => {
         return this.generateN(size, false)
     }
 
-
+    // generates N ssns
     static generateN = (n, isActual) => {
         let arr = []
         for (var i = 0; i < n; i++) {
@@ -16,15 +18,17 @@ module.exports = class HetuGen {
         return arr;
     }
 
+    // generates a single temporary
     static generateSingleTemporary = () => {
         return this.generateSingle(false)
     }
 
+    // generates a single actual 
     static generateSingleActual = () => {
         return this.generateSingle(true)
     }
     
-
+    // method for the generation
     static generateSingle = (isActual) => {
         let year = getYear();
         const month = getMonth();
@@ -34,18 +38,25 @@ module.exports = class HetuGen {
         const yearLastDigits = year.toString()[2] + year.toString()[3]
         const numberString = day.toString() + month.toString() + yearLastDigits + endCode.toString();
         const checkSum = generateCheckSum(numberString)
-        year = year.toString();
-        year = year[2] + year[3]
-        return day.toString() + month.toString() + year.toString() + dividor + endCode + checkSum;
+        const result = day.toString() + month.toString() + yearLastDigits + dividor + endCode + checkSum;
+        if (this.validate(result)) {
+            return result}
+        else {
+            return this.generateSingle(isActual)
+        }
     }
-
+    
+    // validates the ssn
     static validate = (ssn) => {
+        if (ssn == null) {
+            return false
+        }
+        // checks if matches the format
         if (!ssn.match(SSN_REGEX) || ssn.length < 11 ) {
             return false;
         }
-
-        const array = ssn.split("-");
-
+        // checks the checksum
+        const array = ssn.split(/[-A]+/);
         if (array.length != 2) {
             return false
         }
@@ -53,6 +64,7 @@ module.exports = class HetuGen {
     }
 }
 
+// Validation
 
 isCheckSumCorrect = (array) => {
     const firstPart = array[0];
@@ -65,6 +77,8 @@ isCheckSumCorrect = (array) => {
 }
 
 const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+
+// Checksum utils
 
 const checkSumMap = {
     1: '1',
@@ -99,7 +113,6 @@ const checkSumMap = {
     30: 'Y'
 }
 
-
 generateCheckSum = (numberString) => {
     const parsedNroString = parseInt(numberString);
     const modulo = parsedNroString % 31;
@@ -107,62 +120,6 @@ generateCheckSum = (numberString) => {
     return checkSumMap[modulo];
 }
 
-getDay = (month, year) => {
-    let day;
-    if (month === '02') {
-        if (isLeapYear(year)) {
-            day = Math.floor(Math.random() * 29) + 1;
-            return formatDay(day)
-        } else {
-            day = Math.floor(Math.random() * 28) + 1;
-            return formatDay(day)
-        }
-    }
-    if (monthsWith31Days().has(month)) {
-        day = Math.floor(Math.random() * 31) + 1;
-        return formatDay(day)
-    } else {
-        day = Math.floor(Math.random() * 30) + 1;
-        return formatDay(day)
-    }
-}
-
-formatDay = (day) => {
-    return day.toString().length > 1 ? (day) : ('0' + day);
-}
-
-isLeapYear = (year) => {
-    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
-}
-
-monthsWith31Days = () => {
-    return new Set(['01','03', '05', '07', '08', '10', '12'])
-}
-
-getMonth = () => {
-    let month = Math.floor(Math.random() * 12) + 1;
-    if (month.toString().length > 1) {
-        return month;
-    } else {
-        return '0' + month;
-    }
-}
-
-getYear = () => {
-    const min = 1899;
-    const max = new Date().getFullYear();
-    return Math.floor(Math.random() * (max - min + 1) + min).toString();
-}
-
-formatNumber = (number) => {
-    if (number < 10 ) {
-        return "00" + number.toString();
-    } else if (number < 100) {
-        return "0" + number.toString();
-    } else {
-        return number.toString();
-    }
-}
 
 generateCode = (actual, year) => {
     let min, max;
@@ -179,6 +136,71 @@ generateCode = (actual, year) => {
         return generateCode(actual, year)
     } 
     return formatNumber(number)
+}
+
+
+// month generation utils
+
+
+const monthsWith31Days = new Set(['01','03', '05', '07', '08', '10', '12'])
+
+getMonth = () => {
+    let month = Math.floor(Math.random() * 12) + 1;
+    if (month.toString().length > 1) {
+        return month;
+    } else {
+        return '0' + month;
+    }
+}
+
+// day generation utils
+
+getDay = (month, year) => {
+    let day;
+    if (month === '02') {
+        if (isLeapYear(year)) {
+            day = Math.floor(Math.random() * 29) + 1;
+            return formatDay(day)
+        } else {
+            day = Math.floor(Math.random() * 28) + 1;
+            return formatDay(day)
+        }
+    }
+    if (monthsWith31Days.has(month)) {
+        day = Math.floor(Math.random() * 31) + 1;
+        return formatDay(day)
+    } else {
+        day = Math.floor(Math.random() * 30) + 1;
+        return formatDay(day)
+    }
+}
+
+formatDay = (day) => {
+    return day.toString().length > 1 ? (day) : ('0' + day);
+}
+
+// Year utils
+getYear = () => {
+    const min = 1899;
+    const max = new Date().getFullYear();
+    return Math.floor(Math.random() * (max - min + 1) + min).toString();
+}
+
+isLeapYear = (year) => {
+    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+}
+
+
+// general utils
+
+formatNumber = (number) => {
+    if (number < 10 ) {
+        return "00" + number.toString();
+    } else if (number < 100) {
+        return "0" + number.toString();
+    } else {
+        return number.toString();
+    }
 }
 
 getRandomNumberBetween = (min, max) => {

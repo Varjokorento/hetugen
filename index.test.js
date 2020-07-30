@@ -55,6 +55,13 @@ describe('FinnishSSN', () => {
             const generatedString = Hetugen.generateSingleActual();
             expect(Hetugen.validate(generatedString)).to.equal(true)
         })
+
+        it ('1000 Actuals should all be valid', () => {
+            for (var i = 0; i < 1000; i++) {
+                const generatedString = Hetugen.generateSingleActual();
+                expect(Hetugen.validate(generatedString)).to.equal(true)
+            }
+        })
     })
 
     describe('#generateSingleTemporary', () => {
@@ -72,6 +79,12 @@ describe('FinnishSSN', () => {
         it('Temp should be valid', () => {
             const generatedString = Hetugen.generateSingleTemporary();
             expect(Hetugen.validate(generatedString)).to.equal(true)
+        })
+        it ('1000 Temps should all be valid', () => {
+            for (var i = 0; i < 1000; i++) {
+                const generatedString = Hetugen.generateSingleTemporary();
+                expect(Hetugen.validate(generatedString)).to.equal(true)
+            }
         })
     })
 }
