@@ -31,8 +31,11 @@ console.log(Hetugen.generateN(5, isActual))
 ```
 
 
-
 ## Releases
+  * 0.3.0 
+      - fixed validation
+      - fixed a bug generation
+      - optimized and cleaned code
   * 0.2.1 Minor release
       - fixed dependencies
   * 0.2.0 Second release
