@@ -30,7 +30,7 @@ module.exports = class HetuGen {
     
     // method for the generation
     static generateSingle = (isActual) => {
-        let year = getYear();
+        const year = getYear();
         const month = getMonth();
         const day = getDay(month);
         const dividor = year >= 2000 ? ("A"): ("-")
@@ -38,12 +38,7 @@ module.exports = class HetuGen {
         const yearLastDigits = year.toString()[2] + year.toString()[3]
         const numberString = day.toString() + month.toString() + yearLastDigits + endCode.toString();
         const checkSum = generateCheckSum(numberString)
-        const result = day.toString() + month.toString() + yearLastDigits + dividor + endCode + checkSum;
-        if (this.validate(result)) {
-            return result}
-        else {
-            return this.generateSingle(isActual)
-        }
+        return day.toString() + month.toString() + yearLastDigits + dividor + endCode + checkSum;
     }
     
     // validates the ssn
@@ -56,11 +51,7 @@ module.exports = class HetuGen {
             return false;
         }
         // checks the checksum
-        const array = ssn.split(/[-A]+/);
-        if (array.length != 2) {
-            return false
-        }
-        return isCheckSumCorrect(array);
+        return isCheckSumCorrect([ssn.substring(0,6), ssn.substring(7)]);
     }
 }
 
@@ -72,15 +63,15 @@ isCheckSumCorrect = (array) => {
     const secondNumber = secondPart[0] + secondPart[1] + secondPart[2];
     const checkSum = secondPart[3];
     const numberToDivide = parseInt(firstPart.toString() + secondNumber.toString())
-    const modulo = numberToDivide % 31
-    return checkSumMap[modulo] == checkSum
+    return checkSumMap[numberToDivide % 31] == checkSum
 }
 
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/;
+const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([0-9]\d\+|\d\d-|[0-9]\dA)\d{3}[\dA-Z]$/;
 
 // Checksum utils
 
 const checkSumMap = {
+    0: '0',
     1: '1',
     2: '2',
     3: '3',

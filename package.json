@@ -1,10 +1,11 @@
 {
   "name": "hetugen",
-  "version": "0.3.0",
+  "version": "0.9.0",
   "description": "A package for generating Finnish ids",
   "main": "index.js",
   "scripts": {
-    "test": "mocha index.test.js"
+    "test": "mocha index.test.js",
+    "perfTest": "mocha index.test.js && node perfTest.js"
   },
   "author": "Varjokorento",
   "license": "ISC",

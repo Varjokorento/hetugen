@@ -32,6 +32,9 @@ console.log(Hetugen.generateN(5, isActual))
 
 
 ## Releases
+  * 0.9.0 
+      - Should generate valid ssns.
+      - Should be able to validate ssns
   * 0.3.0 
       - fixed validation
       - fixed a bug generation
