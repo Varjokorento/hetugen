@@ -11,9 +11,9 @@ module.exports = class HetuGen {
 
     // generates N ssns
     static generateN = (n, isActual) => {
-        let arr = []
+        let arr = [];
         for (var i = 0; i < n; i++) {
-            arr.push(this.generateSingle(true, isActual))
+            arr.push(this.generateSingle(isActual))
         }
         return arr;
     }
@@ -136,7 +136,7 @@ generateCode = (actual, year) => {
 const monthsWith31Days = new Set(['01','03', '05', '07', '08', '10', '12'])
 
 getMonth = () => {
-    let month = Math.floor(Math.random() * 12) + 1;
+    let month = getRandomNumberBetween(1, 12);
     if (month.toString().length > 1) {
         return month;
     } else {
@@ -150,18 +150,18 @@ getDay = (month, year) => {
     let day;
     if (month === '02') {
         if (isLeapYear(year)) {
-            day = Math.floor(Math.random() * 29) + 1;
+            day = getRandomNumberBetween(1, 29);
             return formatDay(day)
         } else {
-            day = Math.floor(Math.random() * 28) + 1;
+            day = getRandomNumberBetween(1, 28);
             return formatDay(day)
         }
     }
     if (monthsWith31Days.has(month)) {
-        day = Math.floor(Math.random() * 31) + 1;
+        day = getRandomNumberBetween(1, 31);
         return formatDay(day)
     } else {
-        day = Math.floor(Math.random() * 30) + 1;
+        day = getRandomNumberBetween(1, 30);
         return formatDay(day)
     }
 }
@@ -174,7 +174,7 @@ formatDay = (day) => {
 getYear = () => {
     const min = 1899;
     const max = new Date().getFullYear();
-    return Math.floor(Math.random() * (max - min + 1) + min).toString();
+    return getRandomNumberBetween(min, max).toString();
 }
 
 isLeapYear = (year) => {

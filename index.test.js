@@ -19,7 +19,6 @@ describe('FinnishSSN', () => {
 
       it('Should pass with a generated SSN', () => {
           const genSSN = Hetugen.generateSingleActual();
-          console.log("genSSN", genSSN)
           expect(Hetugen.validate(genSSN)).to.equal(true)
       })
     }
@@ -87,5 +86,41 @@ describe('FinnishSSN', () => {
             }
         })
     })
+
+    describe('#generateNAmountGeneratesN', () => {
+        it('returned array should have a size of n', () => {
+            const n = 5;
+            const retVal = Hetugen.generateN(n, true);
+            expect(retVal.length).to.equal(n);
+        })
+        it('returned array should have all valids', () => {
+            const n = 5;
+            const retVal = Hetugen.generateN(n, true);
+            retVal.forEach(ssn => {
+                expect(Hetugen.validate(ssn)).to.equal(true)
+            })
+        })
+        it('returned array should have temporaries if isActual is false', () => {
+            const n = 5;
+            const isActual = false;
+            const retVal = Hetugen.generateN(n, isActual);
+            retVal.forEach(ssn => {
+                let splitted = ssn.split(/[-A]+/)
+                expect(splitted[1][0]).to.equal("9")
+            })
+        })
+        it('returned array should have temporaries if isActual is true', () => {
+            const n = 5;
+            const isActual = true;
+            const retVal = Hetugen.generateN(n, isActual);
+            retVal.forEach(ssn => {
+                let splitted = ssn.split(/[-A]+/)
+                expect(splitted[1][0]).not.to.equal("9")
+            })
+        })
+    })
+
+
+
 }
 )
