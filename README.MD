@@ -36,6 +36,8 @@ console.log(Hetugen.generateN(5, isActual))
 
 
 ## Releases
+  * 1.0.1
+      - dependencies updated
   * 1.0.0 
       - First stable release
   * 0.9.0 
@@ -51,4 +53,3 @@ console.log(Hetugen.generateN(5, isActual))
       - Fixes a bug where the checksum is incorrectly generated
       - Improves validation to actually check for a correct checksum
   * 0.1.0 First working release 
-  * Unordered sub-list. 
