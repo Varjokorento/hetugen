@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/hetugen.png)](https://npmjs.org/package/hetugen)
+
 # Finnish Social Security Number (SSN) Generator
 
 This is a small Javascript library for generating valid Finnish SSN. The logic is based on Tuomas Salste's quality article: https://www.tuomas.salste.net/doc/hetu/tunnus.html. 
